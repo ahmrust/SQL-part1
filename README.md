@@ -13,32 +13,46 @@
 Желаем успехов в выполнении домашнего задания.
 
 Задание можно выполнить как в любом IDE, так и в командной строке.
-## Задание 1
+### Задание 1
 Получите уникальные названия районов из таблицы с адресами, которые начинаются на “K” и заканчиваются на “a” и не содержат пробелов.
 
 Решение 1
 ```
-```
-![alt text]()
+SELECT DISTINCT district 
+FROM address 
+WHERE district  LIKE 'k%a' and district not LIKE  '% %';
 
-## Задание 2
+```
+![alt text](https://github.com/ahmrust/SQL-part1/blob/main/img/1.png)
+
+### Задание 2
 Получите из таблицы платежей за прокат фильмов информацию по платежам, которые выполнялись в промежуток с 15 июня 2005 года по 18 июня 2005 года включительно и стоимость которых превышает 10.00.
 
 Решение 2
 ```
-```
-![alt text]()
+SELECT *
+FROM payment
+WHERE payment_date  BETWEEN '2005-06-15' and '2005-06-19' and amount > 10
+ORDER BY payment_date;
 
-## Задание 3
+```
+![alt text](https://github.com/ahmrust/SQL-part1/blob/main/img/2.png)
+
+### Задание 3
 
 Получите последние пять аренд фильмов.
 
-## Решение 3
+Решение 3
 ```
-```
-![alt text]()
+SELECT *  
+FROM rental   
+ORDER by rental_date DESC 
+LIMIT 5;
 
-## Задание 4
+```
+![alt text](https://github.com/ahmrust/SQL-part1/blob/main/img/3.png)
+
+### Задание 4
 Одним запросом получите активных покупателей, имена которых Kelly или Willie.
 Сформируйте вывод в результат таким образом:
 все буквы в фамилии и имени из верхнего регистра переведите в нижний регистр,
@@ -46,13 +60,36 @@
 
 Решение 4
 ```
-```
-![alt text]()
+SELECT LOWER(REPLACE(first_name, 'L', 'p')), LOWER(last_name) 
+FROM customer
+WHERE first_name LIKE 'Willie' OR first_name  LIKE 'Kelly';
 
-## Дополнительные задания (со звёздочкой*)
+```
+![alt text](https://github.com/ahmrust/SQL-part1/blob/main/img/4.png)
+
+### Дополнительные задания (со звёздочкой*)
 Эти задания дополнительные, то есть не обязательные к выполнению, и никак не повлияют на получение вами зачёта по этому домашнему заданию. Вы можете их выполнить, если хотите глубже шире разобраться в материале.
-## Задание 5*
+### Задание 5*
+
 Выведите Email каждого покупателя, разделив значение Email на две отдельных колонки: в первой колонке должно быть значение, указанное до @, во второй — значение, указанное после @.
-## Задание 6*
+Решение 5
+```
+SELECT email, SUBSTRING_INDEX(email , '@', 1), SUBSTRING_INDEX(email , '@', -1)
+FROM customer;
+
+```
+![alt text](https://github.com/ahmrust/SQL-part1/blob/main/img/5.png)
+### Задание 6*
 Доработайте запрос из предыдущего задания, скорректируйте значения в новых колонках: первая буква должна быть заглавной, остальные — строчными.
 
+Решение 6
+
+```
+SELECT email  , SUBSTRING_INDEX(email  , '@', 1), 
+CONCAT ( LEFT(UPPER(SUBSTRING_INDEX(email  , '@', 1)), 1), LOWER(SUBSTR((SUBSTRING_INDEX(email , '@',1)),2))) as '1' ,  
+SUBSTRING_INDEX(email  , '@', -1) ,
+CONCAT(LEFT(UPPER(SUBSTRING_INDEX(email  , '@', -1)), 1), LOWER(SUBSTR((SUBSTRING_INDEX(email , '@',-1)),2))) as '2'
+FROM customer c;
+
+```
+![alt text](https://github.com/ahmrust/SQL-part1/blob/main/img/6.png)
